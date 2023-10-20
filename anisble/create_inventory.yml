@@ -1,0 +1,10 @@
+- name: Create INI inventory file
+  hosts: localhost
+  gather_facts: yes
+  become: yes
+
+  tasks:
+    - name: Gather KVM hosts
+      include_role:
+        name: kvm
+        tasks_from: create_inventory

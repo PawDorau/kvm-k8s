@@ -1,0 +1,8 @@
+---
+- name: Check requirements
+  package:
+    name:
+      - libguestfs-tools
+      - python3-libvirt
+    state: present
+  become: yes

@@ -1,0 +1,13 @@
+- include_tasks: get_vms.yml
+- name: Create inventory 
+  copy:
+    content: "{{ existing_vms.list_vms | sort | join('\n') }}" 
+    dest: "{{ inventory_path }}"
+  delegate_to: localhost
+- name: Segregate inventory hosts
+  lineinfile:
+    dest: "{{ inventory_path }}"
+    firstmatch: true
+    insertbefore: "{{ vm_k8s_role[item] }}"
+    line: "\n[{{ vm_k8s_role[item] }}]"
+  loop: "{{ vm_k8s_role.keys() | list }}"
