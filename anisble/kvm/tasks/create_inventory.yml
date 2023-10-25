@@ -1,13 +1,27 @@
 - include_tasks: get_vms.yml
+
+- name: Get VMs IPs
+  community.libvirt.virt:
+    command: nodeinfo
+  register: vms_ips
+  changed_when: no
+
 - name: Create inventory 
   copy:
-    content: "{{ existing_vms.list_vms | sort | join('\n') }}" 
+    content: "{{ existing_vms.list_vms | sort | join('\n\t\t') }}" 
     dest: "{{ inventory_path }}"
   delegate_to: localhost
+
+- name: add vms ips 
+  copy:
+    content: "{{ vms_ips.domifaddr | sort | join('\n\t\t') }}" 
+    dest: "{{ inventory_path }}"
+  delegate_to: localhost
+
 - name: Segregate inventory hosts
   lineinfile:
     dest: "{{ inventory_path }}"
     firstmatch: true
     insertbefore: "{{ vm_k8s_role[item] }}"
-    line: "\n[{{ vm_k8s_role[item] }}]"
+    line: "\n{{ vm_k8s_role[item] }}:\n  hosts:\n"
   loop: "{{ vm_k8s_role.keys() | list }}"

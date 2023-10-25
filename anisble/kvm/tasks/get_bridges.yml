@@ -1,0 +1,6 @@
+- name: Get Bridges list
+  community.libvirt.virt_net:
+    name: "{{ br_name }}"
+    command: list_nets
+  register: existing_bridges
+  changed_when: no

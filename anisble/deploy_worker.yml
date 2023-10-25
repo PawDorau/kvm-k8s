@@ -7,11 +7,12 @@
     vm_k8s_role:
       worker: "worker"
       controlplane: "controlplane"
-    vm: "{{ vm_k8s_role.worker }}-03-f38"
+    vm: "{{ vm_k8s_role.worker }}-04-f38"
     vcpus: 2
     ram_mb: 2048
     cleanup: no
-    net: default
+    net: "{{ br_name }}"
+    ip_addr: "{{ br_net_addr_prefix }}.10"
     root_pass: "test"
     ssh_pub_key: "/home/pdorau/.ssh/id_rsa.pub"
 
@@ -25,6 +26,7 @@
         vm_vcpus: "{{ vcpus }}"
         vm_ram_mb: "{{ ram_mb }}"
         vm_net: "{{ net }}"
+        vm_ip_addr: "{{ ip_addr }}"
         vm_root_pass: "{{ root_pass }}"
         cleanup_tmp: "{{ cleanup }}"
         ssh_key: "{{ ssh_pub_key }}"

@@ -1,0 +1,11 @@
+- name: Prepare k8s nodes
+  hosts: worker
+  gather_facts: yes
+  become: yes
+  remote_user: root
+
+  tasks:
+    - name: Install k8s packages
+      include_role:
+        name: k8s
+        tasks_from: install_requirements

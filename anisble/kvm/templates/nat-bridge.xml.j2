@@ -1,0 +1,16 @@
+<network connections='1'>
+  <name>{{ br_name }}</name>
+  <uuid>{{ br_uuid }}</uuid>
+  <forward mode='nat'>
+    <nat>
+      <port start='{{ br_port_start }}' end='{{ br_port_end }}'/>
+    </nat>
+  </forward>
+  <bridge name='{{ br_name }}' stp='on' delay='0'/>
+  <mac address='{{ br_mac_addr }}'/>
+  <ip address='{{ br_ip_addr }}' netmask='{{ br_net_mask }}'>
+    <dhcp>
+      <range start='{{ br_dhcp_addr_start }}' end='{{ br_dhcp_addr_end }}'/>
+    </dhcp>
+  </ip>
+</network>

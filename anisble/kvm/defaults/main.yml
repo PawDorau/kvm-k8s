@@ -1,5 +1,19 @@
 ---
 # defaults file for kvm
+
+# ----------- bridge setup ----------- #
+br_uuid: 8f7d38f1-0dc8-4c7e-b4e7-e7a433ac7777
+br_name: br0
+br_port_start: 1024
+br_port_end: 65535
+br_mac_addr: 52:54:00:8d:db:77
+br_net_addr_prefix: 192.168.100
+br_ip_addr: "{{ br_net_addr_prefix }}.1"
+br_net_mask: 255.255.255.0
+br_dhcp_addr_start: "{{ br_net_addr_prefix }}.2"
+br_dhcp_addr_end: "{{ br_net_addr_prefix }}.254"
+
+# ------------- vm setup ------------- #
 base_image_name: Fedora-Cloud-Base-38-1.6.x86_64.qcow2
 base_image_url: https://download.fedoraproject.org/pub/fedora/linux/releases/38/Cloud/x86_64/images/{{ base_image_name }}
 base_image_sha: d334670401ff3d5b4129fcc662cf64f5a6e568228af59076cc449a4945318482
@@ -10,8 +24,8 @@ vm_k8s_role:
 vm_name: "{{ vm_k8s_role.worker }}-03-f38"
 vm_vcpus: 2
 vm_ram_mb: 2048
-vm_net: default
+vm_net: "{{ br_name }}"
+vm_ip_addr: "{{ br_net_addr_prefix }}.2"
 vm_root_pass: root
 cleanup_tmp: no
 ssh_key: /root/.ssh/id_rsa.pub
-inventory_path: /tmp/inventory.ini

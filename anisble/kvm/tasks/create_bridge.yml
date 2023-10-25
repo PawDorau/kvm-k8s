@@ -1,0 +1,13 @@
+- include_tasks: get_bridges.yml
+- name: Create Bridge (not existing)
+  block:
+  - name: Define bridge
+    community.libvirt.virt_net:
+      name: "{{ br_name }}"
+      command: define
+      xml: "{{ lookup('template', 'nat-bridge.xml.j2') }}"
+  when: "br_name not in existing_bridges.list_nets"
+- name: Start a network
+  community.libvirt.virt_net:
+    name: "{{ br_name }}"
+    command: create

@@ -1,6 +1,4 @@
-- name: Create YAML inventory file
-  vars_files:
-    - global_vars.yml
+- name: Deploys VM based on cloud image
   hosts: localhost
   gather_facts: yes
   become: yes
@@ -9,4 +7,4 @@
     - name: Gather KVM hosts
       include_role:
         name: kvm
-        tasks_from: create_inventory
+        tasks_from: create_bridge
