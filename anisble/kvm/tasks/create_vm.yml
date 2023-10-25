@@ -1,10 +1,12 @@
 - name: Create VM (not existing)
   block:
+
   - name: Download base image
     get_url:
       url: "{{ base_image_url }}"
       dest: "/tmp/{{ base_image_name }}"
       checksum: "sha256:{{ base_image_sha }}"
+
   - name: Copy base image to libvirt directory
     copy:
       dest: "{{ libvirt_image_dir }}/{{ vm_name }}.qcow2"
@@ -13,6 +15,7 @@
       remote_src: yes 
       mode: 0660
     register: copy_results
+
   - name: Configure the image
     command: |
       virt-customize -v -a {{ libvirt_image_dir }}/{{ vm_name }}.qcow2 \
@@ -27,3 +30,9 @@
       command: define
       xml: "{{ lookup('template', 'worker-vm.xml.j2') }}"
   when: "vm_name not in existing_vms.list_vms"
+
+- name: Add VM to net bridge DHCP pool
+  community.libvirt.virt_net:
+    name: "{{ br_name }}"
+    command: modify
+    xml: "<host mac='{{ vm_mac_addr }}' name='{{ vm_name }}' ip='{{ vm_ip_addr }}'/>"

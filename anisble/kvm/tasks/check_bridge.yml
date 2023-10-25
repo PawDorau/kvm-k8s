@@ -1,0 +1,4 @@
+- name: Ensure that a network is active
+  community.libvirt.virt_net:
+    state: active
+    name: br_nat

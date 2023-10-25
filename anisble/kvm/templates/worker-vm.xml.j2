@@ -17,7 +17,7 @@
     </disk>
     <interface type='network'>
       <source network='{{ vm_net }}'/>
-      <ip address='{{ vm_ip_addr }}' prefix='24'/>
+      <mac address='{{ vm_mac_addr }}'/>
       <model type='virtio'/>
       <address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
     </interface>

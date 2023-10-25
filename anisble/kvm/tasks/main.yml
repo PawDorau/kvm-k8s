@@ -3,5 +3,4 @@
 - include_tasks: check_requirements.yml
 - include_tasks: get_vms.yml
 - include_tasks: create_vm.yml
-- include_tasks: label_k8s_node.yml
 - include_tasks: check_vm.yaml
